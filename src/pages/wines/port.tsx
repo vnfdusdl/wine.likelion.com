@@ -1,4 +1,5 @@
 import type {NextPage} from "next";
+import { Loading, Error, WineCard} from '../../components';
 // API를 이용해 와인 관련 데이터를 갖고 오는 useWineData를 가지고 온다. 
 import { useWineData } from '../../hooks/useWineData';
 // 와인 데이터의 자료형을 정해놓은 Wine을 가져온다.
@@ -13,11 +14,11 @@ const PortWinePage : NextPage = () => {
     
     // error가 났다면 Error 컴포넌트를 반환한다.
     // Error가 무엇을 반환하는지는 components 폴더의 Error.tsx에서 확인할 수 있다.
-    if(error) return <div>Failed to Loading...</div>
+    if(error) return <Error />
     // 데이터가 아직 없지만 에러는 아닐 때, 즉 로딩중일 때를 뜻한다.
     // data를 아직 받아오지 못했다면 Loading 컴포넌트를 반환한다.
     // Loading이 무엇을 반환하는지는 components 폴더의 Loading.tsx에서 확인할 수 있다.
-    if(!data) return <div>...Loading</div>
+    if(!data) return <Loading />
     // error도 없고, data도 받아왔다면 아래의 코드를 반환한다.
     return (
         <div>
@@ -25,12 +26,10 @@ const PortWinePage : NextPage = () => {
             <main>
                 {/* useWindData를 통해 받아온 data를 map을 통해 하나하나 windeData라는 이름으로 넘겨준다. */}
                 {data.map((wineData: Wine) => {
-                    const { id, wine, winery } = wineData;
                     return (
-                        <div key={`port-wine-list-${wineData.id}`}>
-                            <h1>{wineData.wine}</h1>
-                            <p>{wineData.winery}</p>
-                        </div>
+                       <WineCard key={`port-wine-list=${wineData.id}`}
+                       wineData={wineData}
+                       />
                     )
                 })}
             </main>
